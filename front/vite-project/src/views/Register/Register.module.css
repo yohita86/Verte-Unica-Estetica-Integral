@@ -1,0 +1,64 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: 2rem;
+}
+
+.glass {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+    gap: 1rem;
+    color: #fff;
+}
+
+.glass input {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    padding: 0.75rem;
+    border-radius: 10px;
+    color: #fff;
+    outline: none;
+}
+
+.glass input::placeholder {
+    color: #eee;
+}
+
+.glassHover {
+    background: rgba(255, 255, 255, 0.25);
+    padding: 0.75rem;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.glassHover:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.title {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.error {
+    color: #ff8080;
+    text-align: center;
+}
+
+.success {
+    color: #80ffcc;
+    text-align: center;
+}

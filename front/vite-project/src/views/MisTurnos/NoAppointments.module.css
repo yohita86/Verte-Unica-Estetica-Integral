@@ -1,0 +1,7 @@
+/* src/components/NoAppointments/NoAppointments.module.css */
+.message {
+    font-size: 1.3rem;
+    text-align: center;
+    padding: 20px;
+    color: #555;
+}

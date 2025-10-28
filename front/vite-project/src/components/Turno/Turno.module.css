@@ -1,0 +1,85 @@
+.card {
+    width: 100%;
+    max-width: 300px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 1.5rem;
+    color: #fff;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    text-align: left;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.card h3 {
+    margin: 0 0 1rem 0;
+    color: #fff;
+    font-size: 1.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+}
+
+.card strong {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.active {
+    border-left: 4px solid #4CAF50;
+}
+
+.cancelled {
+    border-left: 4px solid #f44336;
+    opacity: 0.7;
+}
+
+.error {
+    color: #f44336;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
+.deleteTurno {
+    background: rgba(244, 67, 54, 0.2);
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.deleteTurno:hover:not(:disabled) {
+    background: rgba(244, 67, 54, 0.3);
+}
+
+.deleteTurno:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.Confirmed {
+    color: #6a0dad; /* Morado oscuro */
+    font-weight: bold;
+}
+
+.Cancelled {
+    color: #e91e63; /* Rosa lindo */
+    font-weight: bold;
+}
+
+.Pending {
+    color: #ba68c8; /* Lila suave, combina con morado y rosa */
+    font-weight: bold;
+}
