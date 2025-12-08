@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: verte-unica-backend
+    runtime: node
+    plan: free
+    buildCommand: "cd back && npm install && npm run build"
+    startCommand: "cd back && npm start"
+    envVars:
+      - key: PORT
+        value: "10000"
+      - key: DB_HOST
+        scope: shared-env
+      - key: DB_PORT
+        scope: shared-env
+      - key: DB_USERNAME
+        scope: shared-env
+      - key: DB_PASSWORD
+        scope: shared-env
+      - key: DB_DATABASE
+        scope: shared-env
+      - key: MAIL_USER
+        scope: shared-env
+      - key: MAIL_PASS
+        scope: shared-env
+      - key: FRONTEND_URL
+        value: "https://verte-unica-frontend.onrender.com"
+
+  - type: web
+    name: verte-unica-frontend
+    runtime: node
+    plan: free
+    buildCommand: "cd front/vite-project && npm install && npm run build"
+    startCommand: "cd front/vite-project && npm run preview"
+    envVars:
+      - key: VITE_API_URL
+        value: "https://verte-unica-backend.onrender.com"
