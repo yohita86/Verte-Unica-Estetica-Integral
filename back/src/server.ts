@@ -12,39 +12,32 @@ dotenv.config();
 
 const server: Application = express();
 
-// 👉 CORS COMPLETO Y ANTES DE TODO
+// 👉 CORS CORRECTO PARA PRODUCCIÓN
 server.use(
     cors({
-        origin: process.env.FRONTEND_URL || "http://localhost:5173",
+        origin: [
+            process.env.FRONTEND_URL,
+            "http://localhost:5173"
+        ],
         credentials: true,
         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-        allowedHeaders: ["Content-Type", "Authorization"],
+        allowedHeaders: ["Content-Type"],
+        exposedHeaders: ["set-cookie"]
     })
 );
 
-// 👉 Header necesario para cookies cross-site
-server.use((req, res, next) => {
-    res.header("Access-Control-Allow-Credentials", "true");
-    next();
-});
+// 👉 MUY IMPORTANTE: responder preflight ANTES DE TODO
+server.options("*", cors());
 
-// 👉 Manejo de preflight OPTIONS
-server.options("*", (req, res) => {
-    res.header("Access-Control-Allow-Origin", process.env.FRONTEND_URL || "http://localhost:5173");
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    res.sendStatus(204);
-});
-
-// Middlewares
+// Middlewares básicos
 server.use(express.json());
 server.use(morgan("dev"));
 server.use(cookieParser());
 
-// 👉 Sesiones SIEMPRE después de CORS
+// 👉 CONFIG DE SESIÓN (segura para Render)
 server.use(
     session({
-        secret: "mi-secreto-seguro",
+        secret: process.env.SESSION_SECRET || "supersecreto",
         resave: false,
         saveUninitialized: false,
         cookie: {
@@ -56,10 +49,10 @@ server.use(
     })
 );
 
-// Rutas
+// 👉 Tus rutas
 server.use(router);
 
-// Middleware de errores
+// 👉 Manejo de errores
 server.use(errorMiddleware);
 
 export default server;
