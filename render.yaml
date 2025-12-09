@@ -34,3 +34,5 @@ services:
     envVars:
       - key: VITE_API_URL
         value: "https://verte-unica-backend.onrender.com"
+      - key: PORT
+        value: "10000"
