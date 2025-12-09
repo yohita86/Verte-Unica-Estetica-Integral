@@ -2,7 +2,7 @@
 import { motion } from 'framer-motion';
 import Navbar from '../../components/Navbar/Navbar';
 import styles from './Home.module.css';
-import HomeLanding from '../Homelanding/Homelanding';
+import HomeLanding from '../HomeLanding/HomeLanding';
 import { UserContext } from '../../context/UserContext';
 
 function Home() {
