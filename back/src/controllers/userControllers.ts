@@ -80,11 +80,19 @@ const loginUserController = async (
   });
 };
 
+const loginUserControllerWithErrorHandling = (
+  req: SessionRequest,
+  res: Response,
+  next: any
+) => {
+  return loginUserController(req, res).catch(next);
+};
+
 const userControllers = {
   getUsersController: catchErrors(getUsersController),
   getUserByIdController: catchErrors(getUserByIdController),
   registerUserController: catchErrors(registerUserController),
-  loginUserController: catchErrors(loginUserController),
+  loginUserController: loginUserControllerWithErrorHandling,
 };
 
 export default userControllers;
