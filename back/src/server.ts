@@ -12,21 +12,23 @@ dotenv.config();
 
 const server: Application = express();
 
-// 👉 CORS CORRECTO PARA PRODUCCIÓN
+// 👉 CORS CORRECTO PARA PRODUCCIÓN + FIX DE TYPESCRIPT
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  "http://localhost:5173"
+].filter((o): o is string => Boolean(o)); // <-- elimina undefined
+
 server.use(
-    cors({
-        origin: [
-            process.env.FRONTEND_URL,
-            "http://localhost:5173"
-        ],
-        credentials: true,
-        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-        allowedHeaders: ["Content-Type"],
-        exposedHeaders: ["set-cookie"]
-    })
+  cors({
+    origin: allowedOrigins.length > 0 ? allowedOrigins : "*",
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type"],
+    exposedHeaders: ["set-cookie"],
+  })
 );
 
-// 👉 MUY IMPORTANTE: responder preflight ANTES DE TODO
+// 👉 Preflight OPTIONS
 server.options("*", cors());
 
 // Middlewares básicos
@@ -34,22 +36,22 @@ server.use(express.json());
 server.use(morgan("dev"));
 server.use(cookieParser());
 
-// 👉 CONFIG DE SESIÓN (segura para Render)
+// 👉 Configuración de sesión segura para Render
 server.use(
-    session({
-        secret: process.env.SESSION_SECRET || "supersecreto",
-        resave: false,
-        saveUninitialized: false,
-        cookie: {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-            maxAge: 24 * 60 * 60 * 1000,
-        },
-    })
+  session({
+    secret: process.env.SESSION_SECRET || "supersecreto",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      maxAge: 24 * 60 * 60 * 1000,
+    },
+  })
 );
 
-// 👉 Tus rutas
+// 👉 Rutas
 server.use(router);
 
 // 👉 Manejo de errores
