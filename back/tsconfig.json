@@ -18,18 +18,14 @@
 
     "skipLibCheck": true,
 
-    /* 👇 IMPORTANTE PARA RENDER: soporta tipos locales */
     "moduleResolution": "node",
     "typeRoots": [
-      "./src/types",
       "./node_modules/@types"
     ]
   },
 
-  /* 👇 IMPORTANTE: incluye tus tipos personalizados */
   "include": [
-    "src/**/*.ts",
-    "src/types/**/*.d.ts"
+    "src/**/*.ts"
   ],
 
   "exclude": ["node_modules"]
