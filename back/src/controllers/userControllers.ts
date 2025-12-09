@@ -3,7 +3,6 @@ import {
   UserLoginDto,
   UserLoginSuccessDto,
   UserRegisterDto,
-  UserDto
 } from "../dtos/UserDTO";
 import {
   getUserByIdService,
@@ -14,17 +13,7 @@ import {
 import { catchErrors } from "../utils/catchErrors";
 import { HttpException } from "../utils/HttpException";
 
-// ✅ Tipo personalizado para incluir sesión
-type SessionRequest = Request & {
-  session: {
-    user?: UserDto;
-  };
-};
-
-const getUsersController = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+const getUsersController = async (req: Request, res: Response) => {
   const response = await getUserService();
   res.status(200).json({
     message: "Listado de usuarios obtenido exitosamente",
@@ -32,15 +21,11 @@ const getUsersController = async (
   });
 };
 
-const getUserByIdController = async (
-  req: Request<{ id: string }>,
-  res: Response
-): Promise<void> => {
+const getUserByIdController = async (req: Request<{ id: string }>, res: Response) => {
   const { id } = req.params;
   const response = await getUserByIdService(id);
-  if (!response) {
-    throw new HttpException(404, "Usuario no encontrado");
-  }
+  if (!response) throw new HttpException(404, "Usuario no encontrado");
+
   res.status(200).json({
     message: "Usuario encontrado exitosamente",
     data: response,
@@ -50,7 +35,7 @@ const getUserByIdController = async (
 const registerUserController = async (
   req: Request<unknown, unknown, UserRegisterDto>,
   res: Response
-): Promise<void> => {
+) => {
   const userDto = new UserRegisterDto();
   Object.assign(userDto, req.body);
   await registerUserService(userDto);
@@ -59,19 +44,14 @@ const registerUserController = async (
   });
 };
 
-const loginUserController = async (
-  req: SessionRequest,
-  res: Response
-): Promise<void> => {
+const loginUserController = async (req: Request, res: Response) => {
   const loginDto = new UserLoginDto();
   Object.assign(loginDto, req.body);
 
   const response: UserLoginSuccessDto = await loginUserService(loginDto);
-  if (!response) {
-    throw new HttpException(401, "Credenciales inválidas");
-  }
+  if (!response) throw new HttpException(401, "Credenciales inválidas");
 
-  // Guardar usuario en sesión
+  // Ahora TypeScript entiende la sesión perfectamente
   req.session.user = response.user;
 
   res.status(200).json({
@@ -80,19 +60,11 @@ const loginUserController = async (
   });
 };
 
-const loginUserControllerWithErrorHandling = (
-  req: SessionRequest,
-  res: Response,
-  next: any
-) => {
-  return loginUserController(req, res).catch(next);
-};
-
 const userControllers = {
   getUsersController: catchErrors(getUsersController),
   getUserByIdController: catchErrors(getUserByIdController),
   registerUserController: catchErrors(registerUserController),
-  loginUserController: loginUserControllerWithErrorHandling,
+  loginUserController: catchErrors(loginUserController),
 };
 
 export default userControllers;
