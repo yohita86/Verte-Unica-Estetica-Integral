@@ -23,7 +23,7 @@ server.use(cors({
 
 server.use(cookieParser());
 
-// 🔥 Middleware de sesión
+// Middleware de sesión
 server.use(session({
     secret: "mi-secreto-seguro",
     resave: false,
