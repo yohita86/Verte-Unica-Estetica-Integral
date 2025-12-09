@@ -13,10 +13,19 @@ dotenv.config();
 const server: Application = express();
 
 const corsConfig = {
-    origin: [
-        process.env.FRONTEND_URL || "",
-        "http://localhost:5173"
-    ],
+    origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+        const whitelist = [
+            process.env.FRONTEND_URL || "https://verte-unica-estetica-integral.onrender.com",
+            "http://localhost:5173",
+            "http://localhost:3000"
+        ];
+        
+        if (!origin || whitelist.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("CORS blocked"));
+        }
+    },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type"],
