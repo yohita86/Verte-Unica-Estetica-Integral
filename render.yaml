@@ -3,9 +3,11 @@ services:
     name: verte-unica-backend
     runtime: node
     plan: free
-    buildCommand: "cd back && npm install && npm run build"
+    buildCommand: "cd back && npm install --include=dev && npm run build"
     startCommand: "cd back && npm start"
     envVars:
+      - key: NODE_ENV
+        value: development
       - key: PORT
         value: "10000"
       - key: DB_HOST
