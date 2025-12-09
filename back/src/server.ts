@@ -16,7 +16,7 @@ const server: Application = express();
 server.use(
   cors({
     origin: [
-      process.env.FRONTEND_URL,
+      process.env.FRONTEND_URL || "", // <--- FIX para evitar undefined
       "http://localhost:5173"
     ],
     credentials: true,
