@@ -16,7 +16,7 @@ userRouter.post("/register",
 
 userRouter.post("/login", 
     validationMiddleware(UserLoginDto), 
-    userControllers.loginUserController)
+    userControllers.loginUserController as any)
 
 userRouter.post(
     "/upload-photo",
