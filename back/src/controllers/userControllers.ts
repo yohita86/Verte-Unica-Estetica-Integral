@@ -51,8 +51,8 @@ const loginUserController = async (req: Request, res: Response) => {
   const response: UserLoginSuccessDto = await loginUserService(loginDto);
   if (!response) throw new HttpException(401, "Credenciales inválidas");
 
-  // Ahora TypeScript entiende la sesión perfectamente
-  req.session.user = response.user;
+  // Guardar usuario en sesión
+  (req.session as any).user = response.user;
 
   res.status(200).json({
     message: "Inicio de sesión exitoso",
